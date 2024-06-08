@@ -4,6 +4,7 @@
 module axis_mesh_tb();
 
     logic clk, clk_noc, rst_n;
+    integer i, j;
 
     // -------------------------------------
     // 100MHz Clock
