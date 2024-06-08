@@ -9,7 +9,7 @@
 # generated the IP script, relative to the directory from which you launch
 # the simulator.
 #
-set QSYS_SIMDIR /home/sobla/workspace/noc/rtl/sim/
+set QSYS_SIMDIR /mnt/vault0/sfberrio/repos/noc/sim
 #
 # Source the generated IP simulation script.
 source $QSYS_SIMDIR/mentor/msim_setup.tcl
