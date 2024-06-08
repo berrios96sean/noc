@@ -1,8 +1,13 @@
 `timescale 1ns / 1ps
+`include "parameters.sv"
 
 module axis_mesh_tb();
+
     logic clk, clk_noc, rst_n;
 
+    // -------------------------------------
+    // 100MHz Clock
+    // -------------------------------------
     initial begin
         clk = 0;
         forever begin
@@ -10,6 +15,9 @@ module axis_mesh_tb();
         end
     end
 
+    // -------------------------------------
+    // 100MHz Clock
+    // -------------------------------------
     initial begin
         clk_noc = 0;
         forever begin
@@ -17,40 +25,26 @@ module axis_mesh_tb();
         end
     end
 
-    logic axis_in_tvalid [2][2];
-    logic axis_in_tready [2][2];
-    logic [31:0] axis_in_tdata [2][2];
-    logic axis_in_tlast [2][2];
-    logic [3:0] axis_in_tdest [2][2];
+    logic axis_in_tvalid          [ROWS][COLUMNS];
+    logic axis_in_tready          [ROWS][COLUMNS];
+    logic [31:0] axis_in_tdata    [ROWS][COLUMNS];
+    logic axis_in_tlast           [ROWS][COLUMNS];
+    logic [3:0] axis_in_tdest     [ROWS][COLUMNS];
 
-    logic axis_out_tvalid [2][2];
-    logic axis_out_tready [2][2];
-    logic [31:0] axis_out_tdata [2][2];
-    logic axis_out_tlast [2][2];
-    logic [3:0] axis_out_tdest [2][2];
+    logic axis_out_tvalid         [ROWS][COLUMNS];
+    logic axis_out_tready         [ROWS][COLUMNS];
+    logic [31:0] axis_out_tdata   [ROWS][COLUMNS];
+    logic axis_out_tlast          [ROWS][COLUMNS];
+    logic [3:0] axis_out_tdest    [ROWS][COLUMNS];
 
     initial begin
-        axis_in_tvalid[0][0] = 1'b0;
-        axis_in_tvalid[0][1] = 1'b0;
-        axis_in_tvalid[1][0] = 1'b0;
-        axis_in_tvalid[1][1] = 1'b0;
-//        axis_in_tvalid[2][0] = 1'b0;
-//        axis_in_tvalid[2][1] = 1'b0;
-//        axis_in_tvalid[3][0] = 1'b0;
-//        axis_in_tvalid[3][1] = 1'b0;
-//        axis_in_tvalid[4][0] = 1'b0;
-//        axis_in_tvalid[4][1] = 1'b0;
 
-        axis_out_tready[0][0] = 1'b1;
-        axis_out_tready[0][1] = 1'b1;
-        axis_out_tready[1][0] = 1'b1;
-        axis_out_tready[1][1] = 1'b1;
-//        axis_out_tready[2][0] = 1'b1;
-//        axis_out_tready[2][1] = 1'b1;
-//        axis_out_tready[3][0] = 1'b1;
-//        axis_out_tready[3][1] = 1'b1;
-//        axis_out_tready[4][0] = 1'b1;
-//        axis_out_tready[4][1] = 1'b1;//a  QW`123
+        for (i = 0; i < ROWS; i = i + 1) begin
+            for (j = 0; j < COLUMNS; j = j + 1) begin
+                axis_in_tvalid  [i][j] = 1'b0;
+                axis_out_tready [i][j] = 1'b1;
+            end
+        end
 
         rst_n = 1'b0;
 
@@ -92,8 +86,8 @@ module axis_mesh_tb();
     end
 
         axis_mesh #(
-        .NUM_ROWS                   (2),
-        .NUM_COLS                   (2),
+        .NUM_ROWS                   (ROWS),
+        .NUM_COLS                   (COLUMNS),
         .PIPELINE_LINKS             (1),
 
         .TDEST_WIDTH                (4),
