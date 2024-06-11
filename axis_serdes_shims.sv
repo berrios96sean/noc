@@ -807,9 +807,10 @@ module axis_deserializer #(
     always_ff @(posedge clk) begin
         if (axis_in_tready & axis_in_tvalid) begin
             tdata_buffer[TDATA_IN_WIDTH * (ser_count + 1'b1) - 1 -: TDATA_IN_WIDTH] <= axis_in_tdata;
+            tlast_buffer <= axis_in_tlast;
             if (ser_count == (SERIALIZATION_FACTOR - 1)) begin
                 tdest_buffer <= axis_in_tdest;
-                tlast_buffer <= axis_in_tlast;
+                // tlast_buffer <= axis_in_tlast;
             end
         end
     end
